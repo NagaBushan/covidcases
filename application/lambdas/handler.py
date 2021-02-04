@@ -2,25 +2,44 @@ import json
 import logging
 import requests
 import os
+import csv
+import boto3
 
 logger = logging.getLogger('covid_new_cases')
 
 
 def handle(event, context):
     print('Triggering handler..')
-    logger.info('Triggered scheduled batch to get the covid new cases')
+    # logger.info('Triggered scheduled batch to get the covid new cases')
 
     response = get_covid_cases()
-    # json_response = response.json()
-    with open('covid_cases.json', 'w') as file:
-        json.dump(response, file, indent=4, sort_keys=True)
+    json_response = response.json()
 
-    logger.info('Scheduled job is completed')
+    with open('covid.csv', 'r+b') as data_file:
+        # json.dump(json_response['data'], file, indent=4)
+        covid_json = json_response['data']
 
-    return response
+        csv_writer = csv.writer(data_file)
+
+        count = 0
+        for d in covid_json:
+            if count ==0:
+                header = d.keys()
+                csv_writer.writerow(header)
+                count += 1
+            csv_writer.writerow(d.values())
+        # data_file.close()
+
+    # logger.info('Scheduled job is completed')
+
+    return "Covid data extracted successfully"
 
 
 def get_covid_cases():
-    api = os.environ['COVID_CASES_API']
-    url = api
-    return requests.get(url)
+    api_url = os.environ['COVID_CASES_API']
+    return requests.get(url=api_url)
+
+def upload_into_s3():
+    client = boto3.client("s3")
+
+
