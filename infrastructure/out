@@ -1,0 +1,1 @@
+{"errorMessage": "[Errno 2] No such file or directory: 'covid.csv'", "errorType": "FileNotFoundError", "stackTrace": ["  File \"/var/task/handler.py\", line 18, in handle\n    with open('covid.csv', 'r+b') as data_file:\n"]}

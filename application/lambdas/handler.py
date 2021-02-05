@@ -9,7 +9,7 @@ logger = logging.getLogger('covid_new_cases')
 
 
 def handle(event, context):
-    print('Triggering handler..')
+    print('Calling handler..')
     # logger.info('Triggered scheduled batch to get the covid new cases')
 
     response = get_covid_cases()
