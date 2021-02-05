@@ -4,9 +4,11 @@ import requests
 import os
 import csv
 import boto3
+from requests.api import head
+import datetime
 
 logger = logging.getLogger('covid_new_cases')
-
+FILE_NAME = 'covid.csv'
 
 def handle(event, context):
     print('Calling handler..')
@@ -15,7 +17,10 @@ def handle(event, context):
     response = get_covid_cases()
     json_response = response.json()
 
-    with open('covid.csv', 'r+b') as data_file:
+    if not os.path.exists(FILE_NAME):
+        with open(FILE_NAME, 'w'): pass
+
+    with open(FILE_NAME, 'r+') as data_file:
         # json.dump(json_response['data'], file, indent=4)
         covid_json = json_response['data']
 
@@ -25,10 +30,12 @@ def handle(event, context):
         for d in covid_json:
             if count ==0:
                 header = d.keys()
+                print(header)
                 csv_writer.writerow(header)
                 count += 1
             csv_writer.writerow(d.values())
         # data_file.close()
+        data_file  = sorted(data_file, key = lambda row: datetime.strptime(row[0], "%d-%b-%y"))
 
     # logger.info('Scheduled job is completed')
 
