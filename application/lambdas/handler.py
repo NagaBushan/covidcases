@@ -8,7 +8,7 @@ from requests.api import head
 import datetime
 
 logger = logging.getLogger('covid_new_cases')
-FILE_NAME = 'covid.csv'
+FILE_NAME = '/tmp/covid.csv'
 
 def handle(event, context):
     print('Calling handler..')
@@ -30,23 +30,24 @@ def handle(event, context):
         for d in covid_json:
             if count ==0:
                 header = d.keys()
-                print(header)
                 csv_writer.writerow(header)
                 count += 1
             csv_writer.writerow(d.values())
         # data_file.close()
         data_file  = sorted(data_file, key = lambda row: datetime.strptime(row[0], "%d-%b-%y"))
 
+    upload_file_into_s3(FILE_NAME)
     # logger.info('Scheduled job is completed')
 
-    return "Covid data extracted successfully"
+    return "Covid data extracted successfully into S3 bucket"
 
 
 def get_covid_cases():
     api_url = os.environ['COVID_CASES_API']
     return requests.get(url=api_url)
 
-def upload_into_s3():
-    client = boto3.client("s3")
+def upload_file_into_s3(file_name):
+    s3_client = boto3.resource("s3")
+    s3_client.Bucket('covid-cases').upload_file(file_name, file_name)
 
 
