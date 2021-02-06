@@ -40,6 +40,36 @@ resource "aws_iam_role" "lambda_exec" {
 EOF
 }
 
+resource "aws_iam_policy" "policy" {
+  name = "serverless-covid--lambda-policy"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "logs:*"
+        ],
+        "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "s3:*"
+        ],
+        "Resource": "arn:aws:s3:::*"
+    }
+    ]
+}
+  EOF
+}
+
+resource "aws_iam_role_policy_attachment" "covid_role_policy" {
+  role = "${aws_iam_role.lambda_exec.name}"
+  policy_arn = "${aws_iam_policy.policy.arn}"
+}
 resource "aws_cloudwatch_event_rule" "every_five_minutes" {
     name = "covid-scheduler"
     description = " Covid scheduler"
@@ -60,6 +90,7 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_check_foo" {
   principal     = "events.amazonaws.com"
   source_arn    = "${aws_cloudwatch_event_rule.every_five_minutes.arn}"
 }
+
 resource "aws_lambda_permission" "allow_log_groups_to_log" {
   statement_id = "AllowToWriteLogs"
   action        = "lambda:InvokeFunction"
@@ -70,11 +101,33 @@ resource "aws_lambda_permission" "allow_log_groups_to_log" {
 
 resource "aws_cloudwatch_log_group" "covid-cases" {
   name = "/aws/lambda/covid-cases"
-  retention_in_days = 90
+  retention_in_days = 30
+}
+
+resource "aws_s3_bucket" "covid_cases_bucket" {
+  bucket = "covid-cases"
+}
+
+#To install python dependencies
+resource "null_resource" "pip_install" {
+  triggers = {
+    main  = "${base64sha256(file("../application/lambdas/handler.py"))}"
+    requirements = "${base64sha256(file("../application/lambdas/requirements.txt"))}"
+  }
+
+
+  provisioner "local-exec" {
+    command = "${var.pip_path} install -r ../application/lambdas/requirements.txt -t ../application/lambdas/lib"
+
+  }
+
 }
 
 data "archive_file" "lambda_zip" {
   type = "zip"
-  source_dir = "../application/lambdas"
+  source_dir = "../application/lambdas/"
   output_path = "covid-new-cases.zip"
+
+  depends_on = [ "null_resource.pip_install" ]
 }
+

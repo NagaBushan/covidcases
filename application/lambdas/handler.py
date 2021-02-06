@@ -1,11 +1,17 @@
 import json
-import logging
-import requests
+
 import os
+import sys
 import csv
 import boto3
-from requests.api import head
 import datetime
+
+# Hack to use dependencies from lib directory
+packages_path = os.path.join(os.path.split(__file__)[0], "lib")
+sys.path.append(packages_path)
+
+import logging
+import requests
 
 logger = logging.getLogger('covid_new_cases')
 FILE_NAME = '/tmp/covid.csv'
@@ -13,7 +19,6 @@ FILE_NAME = '/tmp/covid.csv'
 def handle(event, context):
     print('Calling handler..')
     # logger.info('Triggered scheduled batch to get the covid new cases')
-
     response = get_covid_cases()
     json_response = response.json()
 

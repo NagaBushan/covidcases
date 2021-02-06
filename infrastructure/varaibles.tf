@@ -13,3 +13,9 @@ variable "secret_key" {
   description = "AWS secret key"
   type = string
 }
+
+variable "pip_path" {
+  type        = string
+  default     = "/usr/local/bin/pip"
+  description = "Path to your pip installation"
+}
