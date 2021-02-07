@@ -17,13 +17,12 @@ Pre-requisites
 - aws_access_key_id and aws_secret_access_key has to be generated
 
 Deployment of AWS lambda using terraform scripts.
+- cd to <Base_dir>/covidcases/application/lambdas
+-  pip install -r requirements.txt -t ./lib [This step is a work around to fix the issues in downloading the python libraries using terraform provisioner ]
 - cd to the folder <Base_dir>/covidcases/infrastructure
 - tf init
-- tf plan
-	- cat ~/.aws/credentials
-	- copy and past access_key, secret_key
 - tf apply
-	- copy and past access_key, secret_key
+	- copy and paste access_key, secret_key
 
 Testing
 -
@@ -31,9 +30,9 @@ Testing
 - Search for Lambda in AWS console and select
 - There is test button available on console and click on it and mention a name for the test
 - Then click again on test button
-- The logs output will be displayed on the screen
--  For success messsage it will display as "Covid data extracted successfully into S3 bucket"
-- Then the resport in the csv format can be seen in s3 bucket, s3: tf-covid-cases/./tmp/covid.csv
+- The logs output will appear on the screen
+- When test is success it will display as "Covid data extracted successfully into S3 bucket"
+- The report will be generated in the csv format and can be seen in s3 bucket, s3: tf-covid-cases/./tmp/covid.csv
 
 >Please note, the s3 tf-covid-cases bucket needs to be manually deleted. Terraform destroy is not handled to delete it.
 
@@ -41,9 +40,15 @@ Testing
 # Serverless framework
 
 Pre-requisites
-- Make sure you have serverless framework installed , follow these steps mentioned in the below link installed, https://www.serverless.com/framework/docs/providers/aws/guide/installation/
+- Make sure you have serverless framework installed , follow the steps mentioned in the below link for installation, https://www.serverless.com/framework/docs/providers/aws/guide/installation/
+	The below are the recommended version of the Serverless framework
+	- Framework Core: 2.17.0
+	- Plugin: 4.4.1
+	- SDK: 2.3.2
+	- Components: 3.4.3
+	
 -  An active AWS account
-- aws_access_key_id and aws_secret_access_key has to be generated
+- aws_access_key_id and aws_secret_access_key has to be generated and available in the ./aws/credentials
 
 Steps
 -
