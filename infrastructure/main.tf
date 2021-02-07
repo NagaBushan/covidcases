@@ -1,4 +1,18 @@
 
+terraform {
+  required_version = "v0.13.5"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~>3.27.0"
+    }
+    archive = {
+      source = "hashicorp/archive"
+      version = "2.0.0"
+    }
+  }
+}
+
 provider "aws" {
   region = var.region
   access_key = var.access_key
@@ -11,7 +25,7 @@ resource "aws_lambda_function" "covid-cases" {
   filename = "covid-new-cases.zip"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   handler = "handler.handle"
-  runtime = "python3.8"
+  runtime = var.python_version
 
   environment {
     variables = {
