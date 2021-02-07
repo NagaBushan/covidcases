@@ -74,6 +74,7 @@ Steps
 >While running sls deploy, serverless expects python3 on path variables so make sure python3 is available
 
 - sls remove, to delete the stack
+	- This command will not delete the s3 bucket and aws stack when the bucket is not empty. So please delete the bucket and stack manually 
 
 # Unit testing
 - Navigate to ../covidcases/application/lambdas
