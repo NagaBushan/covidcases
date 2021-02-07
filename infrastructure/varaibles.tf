@@ -16,7 +16,7 @@ variable "secret_key" {
 
 variable "pip_path" {
   type        = string
-  default     = "/usr/local/bin/pip"
+  default     = "pip"
   description = "Path to your pip installation"
 }
 
