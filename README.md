@@ -64,7 +64,7 @@ Pre-requisites
 
 Steps
 -
-- git checkout -b main origin/main
+- git checkout main
 - cd <Base_dir>/application/lambdas
 - npm install --save serverless-python-requirements
 - sls deploy (This command will package and deploy into the aws)
