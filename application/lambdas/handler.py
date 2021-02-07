@@ -1,10 +1,10 @@
-import json
-
 import os
 import sys
 import csv
 import boto3
 import datetime
+
+from botocore.exceptions import ClientError
 
 # Hack to use dependencies from lib directory
 packages_path = os.path.join(os.path.split(__file__)[0], "lib")
@@ -13,12 +13,15 @@ sys.path.append(packages_path)
 import logging
 import requests
 
-logger = logging.getLogger('covid_new_cases')
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger()
+
 FILE_NAME = '/tmp/covid.csv'
 
 def handle(event, context):
+
     print('Calling handler..')
-    # logger.info('Triggered scheduled batch to get the covid new cases')
+    logger.info('Triggering covid cases lambda to extract the latest cases')
     response = get_covid_cases()
     json_response = response.json()
 
@@ -52,7 +55,14 @@ def get_covid_cases():
     return requests.get(url=api_url)
 
 def upload_file_into_s3(file_name):
-    s3_client = boto3.resource("s3")
-    s3_client.Bucket('covid-cases').upload_file(file_name, file_name)
+    logger.info('Covid cases uploading into s3')
+    try:
+        s3_client = boto3.resource("s3")
+        covid_cases_bucket = os.environ['COVID_CASES_BUCKET']
+        s3_client.Bucket(covid_cases_bucket).upload_file(file_name, file_name)
+    except ClientError as e:
+        logger.error(e)
+
+    logger.info('Covid cases uploaded successfully into s3')
 
 

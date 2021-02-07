@@ -11,15 +11,16 @@ resource "aws_lambda_function" "covid-cases" {
   source_code_hash = "${data.archive_file.lambda_zip.output_base64sha256}"
   handler = "handler.handle"
   runtime = "python3.8"
+
   environment {
     variables = {
       "COVID_CASES_API"= "https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=nation;areaName=england&structure={%22date%22:%22date%22,%22newCases%22:%22newCasesByPublishDate%22}"
+      "COVID_CASES_BUCKET" = "tf-covid-cases"
     }
   }
 
   role = aws_iam_role.lambda_exec.arn
 }
-
 resource "aws_iam_role" "lambda_exec" {
   name = "serverless-covid-lambda"
 
@@ -41,7 +42,7 @@ EOF
 }
 
 resource "aws_iam_policy" "policy" {
-  name = "serverless-covid--lambda-policy"
+  name = "serverless-covid-lambda-policy"
 
   policy = <<EOF
 {
@@ -105,7 +106,7 @@ resource "aws_cloudwatch_log_group" "covid-cases" {
 }
 
 resource "aws_s3_bucket" "covid_cases_bucket" {
-  bucket = "covid-cases"
+  bucket = "tf-covid-cases"
 }
 
 #To install python dependencies
