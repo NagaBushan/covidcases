@@ -12,8 +12,8 @@ This application extracts the daily covid cases from the source url https://api.
 - Unit testing is done using pytest, Moto, boto3 frameworks.
 
 Clone the project
-	- git clone https://github.com/NagaBushan/covidcases.git
-	- git fetch origin
+- git clone https://github.com/NagaBushan/covidcases.git
+- git fetch origin
 
 # Terraform steps
 Pre-requisites
