@@ -19,12 +19,15 @@ Clone the project
 Pre-requisites
 - An active AWS account
 - aws_access_key_id and aws_secret_access_key has to be generated
+- python 3.8
+- pip 21.01
+- Terrform v0.13.5
 
 Deployment of AWS lambda using terraform scripts.
 
 - git checkout -b feature/terraform origin/feature/terraform
 - cd to <Base_dir>/covidcases/application/lambdas
--  pip install -r requirements.txt -t ./lib [This step is a work around to fix the issues in downloading the python libraries using terraform provisioner ]
+-  pip install -r requirements.txt -t ./lib 
 - cd to the folder <Base_dir>/covidcases/infrastructure
 - tf init
 - tf apply
@@ -34,11 +37,12 @@ Testing
 -
 - After successfully deploying AWS lambda, testing can be done using AWS lambda consle.
 - Search for Lambda in AWS console and select
-- There is test button available on console and click on it and mention a name for the test
+- There is test button available on console and click on it
+- Create a new event, name the event as you like
 - Then click again on test button
 - The logs output will appear on the screen
 - When test is success it will display as "Covid data extracted successfully into S3 bucket"
-- The report will be generated in the csv format and can be seen in s3 bucket, s3: tf-covid-cases/./tmp/covid.csv
+- The report will be generated in the csv format and can be seen in s3 bucket, s3: tf-covid-cases/tmp/covid.csv
 
 >Please note, the s3 tf-covid-cases bucket needs to be manually deleted. Terraform destroy is not handled to delete it.
 
@@ -48,17 +52,20 @@ Testing
 Pre-requisites
 - Make sure you have serverless framework installed , follow the steps mentioned in the below link for installation, https://www.serverless.com/framework/docs/providers/aws/guide/installation/
 	The below are the recommended version of the Serverless framework
-	- Framework Core: 2.17.0
-	- Plugin: 4.4.1
+	- Framework Core: 2.22.0
+	- Plugin: 4.4.2
 	- SDK: 2.3.2
-	- Components: 3.4.3
+	- Components: 3.6.3
 	
 -  An active AWS account
 - aws_access_key_id and aws_secret_access_key has to be generated and available in the ./aws/credentials
+- python 3.8
+- pip 21.01
 
 Steps
 -
 - git checkout -b main origin/main
+- cd <Base_dir>/application/lambdas
 - npm install --save serverless-python-requirements
 - sls deploy (This command will package and deploy into the aws)
 - After successful deployment use the following comand to test it locally
