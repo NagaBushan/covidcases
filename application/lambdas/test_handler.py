@@ -43,7 +43,7 @@ class TestHandler:
         open(self.s3_test_data, 'w').close()
 
         # 2.Act
-        upload_file_into_s3(self.test_file)
+        upload_file_into_s3(self.test_file, 'covid-cases')
 
         # 3.Assert
         s3_client.Object('covid-cases', self.test_file).download_file(self.s3_test_data)
