@@ -13,9 +13,7 @@ sys.path.append(packages_path)
 import logging
 import requests
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger()
-
+logger = logging.getLogger('covid_new_cases')
 FILE_NAME = '/tmp/covid.csv'
 
 def handle(event, context):

@@ -1,8 +1,8 @@
+
 provider "aws" {
-  profile = "default"
   region = var.region
-  # access_key = var.access_key
-  # secret_key = var.secret_key
+  access_key = var.access_key
+  secret_key = var.secret_key
 }
 
 resource "aws_lambda_function" "covid-cases" {
@@ -11,7 +11,7 @@ resource "aws_lambda_function" "covid-cases" {
   filename = "covid-new-cases.zip"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   handler = "handler.handle"
-  runtime = var.python_version
+  runtime = "python3.8"
 
   environment {
     variables = {
@@ -116,7 +116,6 @@ resource "null_resource" "pip_install" {
     main  = "${base64sha256(file("../application/lambdas/handler.py"))}"
     requirements = "${base64sha256(file("../application/lambdas/requirements.txt"))}"
   }
-
 
   provisioner "local-exec" {
     command = "${var.pip_path} install -r ../application/lambdas/requirements.txt -t ../application/lambdas/lib"
