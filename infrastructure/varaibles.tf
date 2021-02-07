@@ -19,3 +19,10 @@ variable "pip_path" {
   default     = "/usr/local/bin/pip"
   description = "Path to your pip installation"
 }
+
+variable "python_version" {
+  type = string
+  default = "python3.8"
+  description = "Python version"
+
+}

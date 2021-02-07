@@ -1,16 +1,17 @@
 provider "aws" {
+  profile = "default"
   region = var.region
-  access_key = var.access_key
-  secret_key = var.secret_key
+  # access_key = var.access_key
+  # secret_key = var.secret_key
 }
 
 resource "aws_lambda_function" "covid-cases" {
   function_name = "covid-cases"
 
   filename = "covid-new-cases.zip"
-  source_code_hash = "${data.archive_file.lambda_zip.output_base64sha256}"
+  source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   handler = "handler.handle"
-  runtime = "python3.8"
+  runtime = var.python_version
 
   environment {
     variables = {
