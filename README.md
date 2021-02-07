@@ -71,6 +71,7 @@ Steps
 - After successful deployment use the following comand to test it locally
 	- sls invoke -f covid-cases ( this will invoke the lambda in aws account, the logs are displayed in the console)
 >Please note, the s3 sls-covid-cases bucket needs to be manually deleted. Terraform destroy is not handled to delete it.
+>While running sls deploy, serverless expects python3 on path variables so make sure python3 is available
 
 - sls remove, to delete the stack
 
