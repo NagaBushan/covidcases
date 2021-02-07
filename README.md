@@ -1,5 +1,16 @@
 # Covid cases
 
+This application extracts the daily covid cases from the source url https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=nation;areaName=england&structure={%22date%22:%22date%22,%22newCases%22:%22newCasesByPublishDate%22} and creates a csv file for the reporting purpose.
+
+- Code is handled using python3.8 version
+- Deployment is automated with two different ways
+  - Terraform
+  - The Serverless framework
+
+- The below steps details how to deploy the aws lambdas with both the approaches.
+
+- Unit testing is done using pytest, Moto, boto3 frameworks.
+
 # Terraform steps
 Pre-requisites
 - An active AWS account
