@@ -58,6 +58,7 @@ Steps
 	- sls invoke -f covid-cases ( this will invoke the lambda in aws account, the logs are displayed in the console)
 >Please note, the s3 sls-covid-cases bucket needs to be manually deleted. Terraform destroy is not handled to delete it.
 
+- sls remove, to delete the stack
 
 # Unit testing
 - Navigate to ../covidcases/application/lambdas
