@@ -17,6 +17,8 @@ Pre-requisites
 - aws_access_key_id and aws_secret_access_key has to be generated
 
 Deployment of AWS lambda using terraform scripts.
+- cd to <Base_dir>/covidcases/application/lambdas
+-  pip install -r requirements.txt -t ./lib [This step is a work around to fix the issues in downloading the python libraries using terraform provisioner ]
 - cd to the folder <Base_dir>/covidcases/infrastructure
 - tf init
 - tf plan
