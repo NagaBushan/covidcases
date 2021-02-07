@@ -17,6 +17,8 @@ Pre-requisites
 - aws_access_key_id and aws_secret_access_key has to be generated
 
 Deployment of AWS lambda using terraform scripts.
+
+- git checkout -b feature/terraform origin/feature/terraform
 - cd to <Base_dir>/covidcases/application/lambdas
 -  pip install -r requirements.txt -t ./lib [This step is a work around to fix the issues in downloading the python libraries using terraform provisioner ]
 - cd to the folder <Base_dir>/covidcases/infrastructure
@@ -52,6 +54,7 @@ Pre-requisites
 
 Steps
 -
+- git checkout -b main origin/main
 - npm install --save serverless-python-requirements
 - sls deploy (This command will package and deploy into the aws)
 - After successful deployment use the following comand to test it locally
