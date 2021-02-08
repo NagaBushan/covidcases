@@ -26,3 +26,15 @@ variable "python_version" {
   description = "Python version"
 
 }
+
+variable "covid_cases_bucket" {
+  type = string
+  default = "ttf-covid-cases"
+  description = "covid cases bucket"
+}
+
+variable "cron_expression" {
+  type = string
+  default = "rate(5 minutes)"
+  description = "Cron expression"
+}
