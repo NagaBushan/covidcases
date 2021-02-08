@@ -42,7 +42,7 @@ Testing
 - Then click again on test button
 - The logs output will appear on the screen
 - When test is success it will display as "Covid data extracted successfully into S3 bucket"
-- The report will be generated in the csv format and can be seen in s3 bucket, s3: tf-covid-cases/tmp/covid.csv
+- Then the resport in the csv format can be seen in s3 bucket, s3: //ttf-covid-cases//tmp/covid.csv
 
 >Please note, the s3 tf-covid-cases bucket needs to be manually deleted. Terraform destroy is not handled to delete it.
 
@@ -70,6 +70,7 @@ Steps
 - sls deploy (This command will package and deploy into the aws)
 - After successful deployment use the following comand to test it locally
 	- sls invoke -f covid-cases ( this will invoke the lambda in aws account, the logs are displayed in the console)
+	- The resport in the csv format can be seen in s3 bucket, s3: //sls-covid-cases//tmp/covid.csv
 >Please note, the s3 sls-covid-cases bucket needs to be manually deleted. Terraform destroy is not handled to delete it.
 >While running sls deploy, serverless expects python3 on path variables so make sure python3 is available
 
